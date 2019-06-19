@@ -32,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void trainingStart(){
+
+        createRandomSummary();
+
+
         countDownTimer = new CountDownTimer(30000, 1000){
 
             @Override
@@ -48,19 +52,19 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }.start();
-
-        createRandomSummary();
     }
 
     public void chooseAnswer(View view){
 
+        TextView resultTextView = findViewById(R.id.resultTextView);
+
+        answers.removeAll(answers);
+
         createRandomSummary();
 
-        //Sprawdzamy ktory przycisk zostal nacisniety
-        Button counter = (Button) view;
+        if(view.getTag().toString().equals(Integer.toString(locationOfCorrectAnswer))){
 
-        int tappedCounter = Integer.parseInt(counter.getTag().toString());
-
+        }
 
     }
 
