@@ -2,14 +2,12 @@ package com.example.braintrainer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,16 +16,22 @@ public class MainActivity extends AppCompatActivity {
 
     CountDownTimer countDownTimer;
     TextView summaryText;
+    TextView pointsText;
+    TextView resultTextView;
     Button playAgainButton;
     ArrayList<Integer> answers = new ArrayList<Integer>();
     int x;
     int y;
     int locationOfCorrectAnswer;
-
+    int counter = 0;
+    int correctCount = 0;
 
 
     public void playAgain(View view){
-        trainingStart();
+        Intent restartIntent = getBaseContext().getPackageManager()
+                .getLaunchIntentForPackage(getBaseContext().getPackageName());
+        restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(restartIntent);
         playAgainButton.setVisibility(View.INVISIBLE);
     }
 
@@ -36,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         createRandomSummary();
 
 
-        countDownTimer = new CountDownTimer(30000, 1000){
+        countDownTimer = new CountDownTimer(4000, 1000){
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -49,6 +53,25 @@ public class MainActivity extends AppCompatActivity {
                 playAgainButton = findViewById(R.id.playAgainButton);
 
                 playAgainButton.setVisibility(View.VISIBLE);
+
+                resultTextView = findViewById(R.id.resultTextView);
+
+                pointsText = findViewById(R.id.endPointsText);
+
+                resultTextView.setText("Time's up!");
+
+                if(resultTextView.getVisibility() != View.VISIBLE){
+                    pointsText.setText("U didn't answer any calculation");
+
+                }else{
+                    if(correctCount == 1){
+                        pointsText.setText("U've got " + Integer.toString(correctCount) + " point for " + " 1 answer");
+                    }else {
+                        pointsText.setText("U've got " + Integer.toString(correctCount) + " points for " + Integer.toString(counter) + " answers");
+                    }
+                }
+
+                pointsText.setVisibility(View.VISIBLE);
             }
 
         }.start();
@@ -56,15 +79,26 @@ public class MainActivity extends AppCompatActivity {
 
     public void chooseAnswer(View view){
 
-        TextView resultTextView = findViewById(R.id.resultTextView);
+        counter++;
+
+        resultTextView = findViewById(R.id.resultTextView);
+
+        resultTextView.setVisibility(View.VISIBLE);
+
+        if(view.getTag().toString().equals(Integer.toString(locationOfCorrectAnswer))){
+            resultTextView.setText("Correct!");
+            correctCount++;
+
+        }else{
+            resultTextView.setText("Wrong!");
+        }
+
 
         answers.removeAll(answers);
 
         createRandomSummary();
 
-        if(view.getTag().toString().equals(Integer.toString(locationOfCorrectAnswer))){
 
-        }
 
     }
 
@@ -77,6 +111,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createRandomSummary(){
+
+        pointsText = findViewById(R.id.pointsTextView);
+        pointsText.setText(correctCount + "/"+ counter);
+
         summaryText = findViewById(R.id.summaryText);
 
         Random rand = new Random();
