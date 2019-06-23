@@ -37,33 +37,16 @@ public class MainActivity extends AppCompatActivity {
     Button button4;
 
 
-    public void playAgain(View view){
-        trainingStart();
-        counter = 0;
-        correctCount = 0;
-        endPointsText.setVisibility(View.INVISIBLE);
-        playAgainButton.setVisibility(View.INVISIBLE);
-        resultTextView.setText("");
-        pointsText.setText("0/0");
-
-        button.setEnabled(true);
-        button2.setEnabled(true);
-        button3.setEnabled(true);
-        button4.setEnabled(true);
-
-    }
-
     public void trainingStart(){
 
         createRandomSummary();
 
-
-        countDownTimer = new CountDownTimer(30000, 1000){
+        countDownTimer = new CountDownTimer(3100, 1000){
 
             @Override
             public void onTick(long millisUntilFinished) {
 
-                timeText.setText(Integer.toString((int)millisUntilFinished / 1000) + "s");
+                timeText.setText(String.valueOf(millisUntilFinished / 1000) + "s");
             }
 
             @Override
@@ -168,6 +151,24 @@ public class MainActivity extends AppCompatActivity {
         button2.setText(Integer.toString(answers.get(1)));
         button3.setText(Integer.toString(answers.get(2)));
         button4.setText(Integer.toString(answers.get(3)));
+    }
+
+    public void playAgain(View view){
+
+        counter = 0;
+        correctCount = 0;
+        answers.removeAll(answers);
+        endPointsText.setVisibility(View.INVISIBLE);
+        playAgainButton.setVisibility(View.INVISIBLE);
+        resultTextView.setText("");
+        pointsText.setText("0/0");
+
+        button.setEnabled(true);
+        button2.setEnabled(true);
+        button3.setEnabled(true);
+        button4.setEnabled(true);
+
+        trainingStart();
     }
 
     @Override
