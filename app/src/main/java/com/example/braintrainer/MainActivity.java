@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     CountDownTimer countDownTimer;
     TextView summaryText;
     TextView pointsText;
+    TextView endPointsText;
     TextView resultTextView;
     Button playAgainButton;
     ArrayList<Integer> answers = new ArrayList<Integer>();
@@ -25,14 +28,27 @@ public class MainActivity extends AppCompatActivity {
     int locationOfCorrectAnswer;
     int counter = 0;
     int correctCount = 0;
+    RelativeLayout relativeLayout;
+    Button button;
+    Button button2;
+    Button button3;
+    Button button4;
 
 
     public void playAgain(View view){
-        Intent restartIntent = getBaseContext().getPackageManager()
-                .getLaunchIntentForPackage(getBaseContext().getPackageName());
-        restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(restartIntent);
+        trainingStart();
+        counter = 0;
+        correctCount = 0;
+        endPointsText.setVisibility(View.INVISIBLE);
         playAgainButton.setVisibility(View.INVISIBLE);
+        resultTextView.setText("");
+        pointsText.setText("0/0");
+
+        button.setEnabled(true);
+        button2.setEnabled(true);
+        button3.setEnabled(true);
+        button4.setEnabled(true);
+
     }
 
     public void trainingStart(){
@@ -40,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         createRandomSummary();
 
 
-        countDownTimer = new CountDownTimer(4000, 1000){
+        countDownTimer = new CountDownTimer(5100, 1000){
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -56,22 +72,28 @@ public class MainActivity extends AppCompatActivity {
 
                 resultTextView = findViewById(R.id.resultTextView);
 
-                pointsText = findViewById(R.id.endPointsText);
+                endPointsText = findViewById(R.id.endPointsText);
 
                 resultTextView.setText("Time's up!");
 
                 if(resultTextView.getVisibility() != View.VISIBLE){
-                    pointsText.setText("U didn't answer any calculation");
+                    endPointsText.setText("U didn't answer any calculation");
 
                 }else{
                     if(correctCount == 1){
-                        pointsText.setText("U've got " + Integer.toString(correctCount) + " point for " + " 1 answer");
+                        endPointsText.setText("U've got " + Integer.toString(correctCount) + " point for " + " 1 answer");
                     }else {
-                        pointsText.setText("U've got " + Integer.toString(correctCount) + " points for " + Integer.toString(counter) + " answers");
+                        endPointsText.setText("U've got " + Integer.toString(correctCount) + " points for " + Integer.toString(counter) + " answers");
                     }
                 }
 
-                pointsText.setVisibility(View.VISIBLE);
+                endPointsText.setVisibility(View.VISIBLE);
+
+                button.setEnabled(false);
+                button2.setEnabled(false);
+                button3.setEnabled(false);
+                button4.setEnabled(false);
+
             }
 
         }.start();
@@ -107,10 +129,15 @@ public class MainActivity extends AppCompatActivity {
 
         startButton.setVisibility(View.INVISIBLE);
 
+        relativeLayout = findViewById(R.id.relativeLayout);
+
+        relativeLayout.setVisibility(View.VISIBLE);
+
         trainingStart();
     }
 
     public void createRandomSummary(){
+
 
         pointsText = findViewById(R.id.pointsTextView);
         pointsText.setText(correctCount + "/"+ counter);
@@ -127,11 +154,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createAnswers(){
-
-        Button button = findViewById(R.id.button);
-        Button button2 = findViewById(R.id.button2);
-        Button button3 = findViewById(R.id.button3);
-        Button button4 = findViewById(R.id.button4);
 
         Random rand = new Random();
 
@@ -166,6 +188,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button startButton = findViewById(R.id.startButton);
+
+        button = findViewById(R.id.button);
+        button2 = findViewById(R.id.button2);
+        button3 = findViewById(R.id.button3);
+        button4 = findViewById(R.id.button4);
+
+
 
         startButton.setVisibility(View.VISIBLE);
 
