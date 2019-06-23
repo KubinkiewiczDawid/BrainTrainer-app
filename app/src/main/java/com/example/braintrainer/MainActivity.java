@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     TextView pointsText;
     TextView endPointsText;
     TextView resultTextView;
+    TextView timeText;
     Button playAgainButton;
     ArrayList<Integer> answers = new ArrayList<Integer>();
     int x;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     int counter = 0;
     int correctCount = 0;
     RelativeLayout relativeLayout;
+    Button startButton;
     Button button;
     Button button2;
     Button button3;
@@ -56,23 +58,18 @@ public class MainActivity extends AppCompatActivity {
         createRandomSummary();
 
 
-        countDownTimer = new CountDownTimer(5100, 1000){
+        countDownTimer = new CountDownTimer(30000, 1000){
 
             @Override
             public void onTick(long millisUntilFinished) {
-                TextView timeText = findViewById(R.id.timeTextView);
+
                 timeText.setText(Integer.toString((int)millisUntilFinished / 1000) + "s");
             }
 
             @Override
             public void onFinish() {
-                playAgainButton = findViewById(R.id.playAgainButton);
 
                 playAgainButton.setVisibility(View.VISIBLE);
-
-                resultTextView = findViewById(R.id.resultTextView);
-
-                endPointsText = findViewById(R.id.endPointsText);
 
                 resultTextView.setText("Time's up!");
 
@@ -103,8 +100,6 @@ public class MainActivity extends AppCompatActivity {
 
         counter++;
 
-        resultTextView = findViewById(R.id.resultTextView);
-
         resultTextView.setVisibility(View.VISIBLE);
 
         if(view.getTag().toString().equals(Integer.toString(locationOfCorrectAnswer))){
@@ -120,16 +115,11 @@ public class MainActivity extends AppCompatActivity {
 
         createRandomSummary();
 
-
-
     }
 
     public void start(View view){
-        Button startButton = findViewById(R.id.startButton);
 
         startButton.setVisibility(View.INVISIBLE);
-
-        relativeLayout = findViewById(R.id.relativeLayout);
 
         relativeLayout.setVisibility(View.VISIBLE);
 
@@ -138,15 +128,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void createRandomSummary(){
 
-
-        pointsText = findViewById(R.id.pointsTextView);
         pointsText.setText(correctCount + "/"+ counter);
 
         summaryText = findViewById(R.id.summaryText);
 
         Random rand = new Random();
-        x = rand.nextInt(50) + 1;
-        y = rand.nextInt(50) + 1;
+        x = rand.nextInt(49) + 1;
+        y = rand.nextInt(49) + 1;
 
         summaryText.setText(x + " + " + y);
 
@@ -187,16 +175,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button startButton = findViewById(R.id.startButton);
-
+        startButton = findViewById(R.id.startButton);
+        playAgainButton = findViewById(R.id.playAgainButton);
+        //Answers buttons
         button = findViewById(R.id.button);
         button2 = findViewById(R.id.button2);
         button3 = findViewById(R.id.button3);
         button4 = findViewById(R.id.button4);
 
+        resultTextView = findViewById(R.id.resultTextView);
+        pointsText = findViewById(R.id.pointsTextView);
+        endPointsText = findViewById(R.id.endPointsText);
+        timeText = findViewById(R.id.timeTextView);
 
-
-        startButton.setVisibility(View.VISIBLE);
-
+        relativeLayout = findViewById(R.id.relativeLayout);
     }
 }
