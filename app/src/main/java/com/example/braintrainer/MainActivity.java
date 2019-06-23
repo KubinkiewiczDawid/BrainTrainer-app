@@ -36,6 +36,32 @@ public class MainActivity extends AppCompatActivity {
     Button button3;
     Button button4;
 
+    public void start(View view){
+
+        startButton.setVisibility(View.INVISIBLE);
+
+        relativeLayout.setVisibility(View.VISIBLE);
+
+        trainingStart();
+    }
+
+    public void playAgain(View view){
+
+        counter = 0;
+        correctCount = 0;
+        answers.removeAll(answers);
+        endPointsText.setVisibility(View.INVISIBLE);
+        playAgainButton.setVisibility(View.INVISIBLE);
+        resultTextView.setText("");
+        pointsText.setText("0/0");
+
+        button.setEnabled(true);
+        button2.setEnabled(true);
+        button3.setEnabled(true);
+        button4.setEnabled(true);
+
+        trainingStart();
+    }
 
     public void trainingStart(){
 
@@ -56,15 +82,10 @@ public class MainActivity extends AppCompatActivity {
 
                 resultTextView.setText("Time's up!");
 
-                if(resultTextView.getVisibility() != View.VISIBLE){
+                if(counter == 0){
                     endPointsText.setText("U didn't answer any calculation");
-
                 }else{
-                    if(correctCount == 1){
-                        endPointsText.setText("U've got " + Integer.toString(correctCount) + " point for " + " 1 answer");
-                    }else {
-                        endPointsText.setText("U've got " + Integer.toString(correctCount) + " points for " + Integer.toString(counter) + " answers");
-                    }
+                    endPointsText.setText("Your score: " + correctCount + "/" + counter);
                 }
 
                 endPointsText.setVisibility(View.VISIBLE);
@@ -98,15 +119,6 @@ public class MainActivity extends AppCompatActivity {
 
         createRandomSummary();
 
-    }
-
-    public void start(View view){
-
-        startButton.setVisibility(View.INVISIBLE);
-
-        relativeLayout.setVisibility(View.VISIBLE);
-
-        trainingStart();
     }
 
     public void createRandomSummary(){
@@ -151,24 +163,6 @@ public class MainActivity extends AppCompatActivity {
         button2.setText(Integer.toString(answers.get(1)));
         button3.setText(Integer.toString(answers.get(2)));
         button4.setText(Integer.toString(answers.get(3)));
-    }
-
-    public void playAgain(View view){
-
-        counter = 0;
-        correctCount = 0;
-        answers.removeAll(answers);
-        endPointsText.setVisibility(View.INVISIBLE);
-        playAgainButton.setVisibility(View.INVISIBLE);
-        resultTextView.setText("");
-        pointsText.setText("0/0");
-
-        button.setEnabled(true);
-        button2.setEnabled(true);
-        button3.setEnabled(true);
-        button4.setEnabled(true);
-
-        trainingStart();
     }
 
     @Override
